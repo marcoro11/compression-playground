@@ -24,6 +24,9 @@ const CODECS: Codec[] = Object.entries(modules)
   })
   .flatMap(([, m]) => m.codecs ?? [])
 
+/** gzip is DEFLATE plus 18 bytes; on the matrix it is just a redundant column. */
+const MATRIX_CODECS = CODECS.filter((c) => c.id !== 'gzip')
+
 interface Row {
   id: string
   name: string
@@ -268,7 +271,7 @@ function Matrix() {
         sample: s,
         n: bytes.length,
         h: entropy(byteCounts(bytes)),
-        cells: CODECS.map((c) => {
+        cells: MATRIX_CODECS.map((c) => {
           const r = runCodec(c, bytes)
           return { ratio: r.bytes / Math.max(1, bytes.length), ok: r.ok }
         }),
@@ -290,9 +293,9 @@ function Matrix() {
                 <th>sample</th>
                 <th className="num">bytes</th>
                 <th className="num">H₀</th>
-                {CODECS.map((c) => (
-                  <th key={c.id} className="num" title={c.family}>
-                    {c.name}
+                {MATRIX_CODECS.map((c) => (
+                  <th key={c.id} className="num" title={c.family} style={{ whiteSpace: 'normal', verticalAlign: 'bottom', minWidth: 52 }}>
+                    {c.name.replace(/\s*\((.*)\)/, ' $1').replace(' + MTF + Huffman', '')}
                   </th>
                 ))}
               </tr>

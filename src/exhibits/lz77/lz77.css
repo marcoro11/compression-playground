@@ -1,0 +1,266 @@
+/* LZ77 / LZW exhibit styles. Shared variables only, so dark mode follows. */
+
+.lz-strip {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  padding-bottom: 4px;
+}
+
+.lz-strip-inner {
+  position: relative;
+}
+
+.lz-arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.lz-cells {
+  position: absolute;
+  left: 0;
+  display: flex;
+  gap: 2px;
+  font: 500 13px var(--mono);
+}
+
+.lz-cells .cell {
+  width: 24px;
+  min-width: 24px;
+  padding: 0;
+}
+
+.lz-cells .cell.win {
+  background: var(--card);
+  border-color: var(--line-strong);
+}
+
+.lz-cells .cell.future {
+  opacity: 0.55;
+}
+
+.lz-index {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  font: 9px var(--mono);
+  color: var(--faint);
+}
+
+.lz-index span {
+  position: absolute;
+  padding-left: 2px;
+}
+
+.lz-band {
+  position: absolute;
+  height: 14px;
+  border: 1px solid var(--ink);
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  font: 9.5px/12px var(--mono);
+  color: var(--ink-2);
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 2px;
+}
+
+.lz-band span {
+  padding: 0 4px;
+}
+
+.lz-band.window {
+  background: color-mix(in srgb, var(--hl-4) 40%, transparent);
+}
+
+.lz-band.look {
+  background: color-mix(in srgb, var(--hl-5) 40%, transparent);
+  border-style: dashed;
+}
+
+/* Token chips: the encoder's output, one per token, clickable to jump there. */
+.lz-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  font: 12px var(--mono);
+}
+
+.lz-tok {
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1px 6px;
+  background: var(--paper);
+  cursor: pointer;
+  white-space: pre;
+  color: var(--ink);
+  font: inherit;
+}
+
+.lz-tok.match {
+  background: var(--hl-5);
+  color: var(--hl-ink);
+}
+
+.lz-tok.lit {
+  background: var(--hl-2);
+  color: var(--hl-ink);
+}
+
+.lz-tok.future {
+  opacity: 0.3;
+}
+
+.lz-tok.on {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.lz-cands {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font: 12px var(--mono);
+}
+
+.lz-cand {
+  display: grid;
+  grid-template-columns: 74px 64px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.lz-cand.best {
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--hl-1) 60%, transparent);
+}
+
+.lz-cand.short {
+  color: var(--muted);
+}
+
+.lz-cand .txt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.lz-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  .lz-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.lz-state {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6px 12px;
+  align-items: center;
+  font: 12.5px var(--mono);
+}
+
+.lz-state > span:nth-child(odd) {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lz-state .tape {
+  font-size: 12px;
+}
+
+.lzw-table {
+  max-height: 320px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.lzw-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font: 12px var(--mono);
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.lzw-code {
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1px 6px;
+  background: var(--paper);
+  cursor: pointer;
+  color: var(--ink);
+  font: inherit;
+}
+
+.lzw-code sub {
+  color: var(--muted);
+  font-size: 9px;
+  margin-left: 2px;
+}
+
+.lzw-code.hi {
+  background: var(--hl-6);
+  color: var(--hl-ink);
+}
+
+.lzw-code.clear {
+  background: var(--hl-2);
+  color: var(--hl-ink);
+}
+
+.lzw-code.on {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.lzw-code.future {
+  opacity: 0.3;
+}
+
+.lzw-code.kwk {
+  box-shadow: inset 0 -3px 0 var(--bad);
+}
+
+.badge {
+  display: inline-block;
+  font: 600 10px var(--mono);
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
+  vertical-align: middle;
+}
+
+.badge.warn {
+  background: var(--bad);
+  color: var(--paper);
+  border-color: var(--bad);
+}
+
+.lz-bits {
+  margin-top: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.panel-head + .lz-bits {
+  margin-top: 0;
+}
