@@ -1,0 +1,265 @@
+/* Perceptual audio. Shared variables only, so dark mode follows. */
+
+.pa-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pa-spec-wrap {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000004;
+}
+
+.pa-spec-canvas {
+  display: block;
+  width: 100%;
+  height: 170px;
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
+
+.pa-spec-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.pa-spec-tick {
+  position: absolute;
+  left: 4px;
+  transform: translateY(-50%);
+  font: 9.5px var(--mono);
+  color: #fff;
+  text-shadow: 0 0 3px #000, 0 0 2px #000;
+  pointer-events: none;
+}
+
+.pa-marks {
+  display: flex;
+  height: 6px;
+}
+
+.pa-marks i {
+  flex: 1;
+  background: var(--bad);
+}
+
+.pa-marks i.on {
+  outline: 1px solid var(--ink);
+}
+
+.pa-chart,
+.pa-bars,
+.pa-scope {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pa-scope {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+}
+
+.pa-axis {
+  font: 10.5px var(--mono);
+  fill: var(--muted);
+}
+
+.pa-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.pa-zero {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.pa-axisline {
+  stroke: var(--line-strong);
+}
+
+.pa-bandline {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.pa-hl {
+  fill: var(--accent);
+  opacity: 0.35;
+}
+
+.pa-spectrum {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 0.8;
+}
+
+.pa-quant {
+  fill: none;
+  stroke: var(--hl-4);
+  stroke-width: 1.2;
+}
+
+.pa-level {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.pa-ath {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.pa-spread {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.2;
+}
+
+.pa-masker {
+  fill: none;
+  stroke: var(--hl-6);
+  stroke-width: 2;
+}
+
+.pa-threshold {
+  fill: none;
+  stroke: #e0458a;
+  stroke-width: 2.6;
+}
+
+.pa-noise {
+  stroke: var(--good);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+.pa-noise.over {
+  stroke: var(--bad);
+}
+
+.pa-bar.good {
+  fill: var(--good);
+}
+
+.pa-bar.bad {
+  fill: var(--bad);
+}
+
+.pa-bar.bits {
+  fill: var(--ink-2);
+  opacity: 0.55;
+}
+
+.pa-sig {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.pa-dec {
+  fill: none;
+  stroke: #e0458a;
+  stroke-width: 1;
+  opacity: 0.85;
+}
+
+.pa-err {
+  fill: none;
+  stroke: var(--bad);
+  stroke-width: 1;
+}
+
+.pa-legend svg {
+  overflow: visible;
+}
+
+.pa-legend {
+  margin-top: 6px;
+}
+
+.pa-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.pa-stage {
+  font: 11px var(--mono);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 1px 9px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.pa-stage.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+}
+
+.pa-stage.done {
+  color: var(--ink);
+}
+
+.pa-budget {
+  height: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--paper);
+  margin-top: 8px;
+}
+
+.pa-budget i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.pa-compare td:first-child {
+  font-weight: 600;
+}
+
+.pa-compare td.better {
+  color: var(--good);
+  font-weight: 600;
+}
+
+.pa-play {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pa-kv {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font: 11.5px var(--mono);
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.pa-kv b {
+  color: var(--ink);
+  font-weight: 600;
+}
