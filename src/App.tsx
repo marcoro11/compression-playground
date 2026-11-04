@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { EXHIBITS } from './exhibits/registry'
 import { Home } from './ui/Home'
+import { TopBar } from './ui/Page'
 
 /** Hash routing — no dependency, and the site stays a static bundle that GitHub Pages can serve. */
 function useHashRoute() {
@@ -24,5 +25,16 @@ export function App() {
 
   if (!ex) return <Home />
   const View = ex.component
-  return <View key={ex.slug} />
+  return (
+    <Suspense
+      fallback={
+        <>
+          <TopBar current={ex.slug} />
+          <div className="loading">Loading {ex.title}…</div>
+        </>
+      }
+    >
+      <View key={ex.slug} />
+    </Suspense>
+  )
 }
