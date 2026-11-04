@@ -1,0 +1,329 @@
+/* JPEG exhibit. Shared variables only, so dark mode follows. */
+
+.jp-pixelated {
+  image-rendering: pixelated;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.jp-panes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 560px) {
+  .jp-panes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.jp-pane {
+  margin: 0;
+  min-width: 0;
+}
+
+.jp-frame {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--paper-2);
+}
+
+.jp-frame.pickable {
+  cursor: crosshair;
+}
+
+.jp-frame img {
+  width: 100%;
+  height: 100%;
+}
+
+.jp-sel {
+  position: absolute;
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 1px var(--ink), 0 0 0 9999px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+.jp-pane figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  font: 11.5px var(--mono);
+}
+
+.jp-pane figcaption span {
+  color: var(--muted);
+}
+
+.jp-upload {
+  position: relative;
+  text-align: center;
+  display: block;
+}
+
+.jp-upload.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.jp-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+a.btn {
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+
+/* ------------------------------------------------------------ step chips */
+
+.jp-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.jp-steps button {
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font: 11.5px var(--mono);
+  cursor: pointer;
+  display: inline-flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.jp-steps button small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.jp-steps button.done {
+  border-color: var(--ink);
+}
+
+.jp-steps button.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+  font-weight: 600;
+}
+
+.jp-steps button.on small {
+  color: var(--accent-ink);
+}
+
+/* ----------------------------------------------------------- the matrices */
+
+.jp-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 18px;
+}
+
+.jp-flow.col {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.jp-flow.col .jp-matrix {
+  align-self: center;
+}
+
+.jp-matrix {
+  margin: 0;
+  width: min(100%, 300px);
+}
+
+.jp-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.jp-cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font: 500 11px var(--mono);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  white-space: nowrap;
+  letter-spacing: -0.03em;
+}
+
+.jp-grid.dec .jp-cell {
+  font-size: 9.5px;
+}
+
+.jp-cell.zero {
+  color: var(--faint);
+}
+
+.jp-cell.hot {
+  outline: 2.5px solid var(--ink);
+  outline-offset: -2.5px;
+  z-index: 1;
+}
+
+.jp-zz {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.jp-matrix figcaption {
+  text-align: center;
+  font: 11px var(--mono);
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.jp-op {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font: 600 22px var(--mono);
+  min-width: 60px;
+}
+
+.jp-op small {
+  font: 10.5px var(--mono);
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .jp-op span {
+    transform: rotate(90deg);
+  }
+  .jp-cell {
+    font-size: 10px;
+  }
+  .jp-grid.dec .jp-cell {
+    font-size: 8px;
+  }
+}
+
+.jp-zzstrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  row-gap: 14px;
+  font: 500 12px var(--mono);
+  padding-bottom: 12px;
+}
+
+.jp-zzstrip .cell {
+  min-width: 28px;
+}
+
+.jp-kind {
+  padding: 0 5px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.legend i.hl-1,
+.legend i.hl-2,
+.legend i.hl-3,
+.legend i.hl-4,
+.legend i.hl-5,
+.legend i.hl-6 {
+  border-color: var(--line-strong);
+}
+
+/* ------------------------------------------------------------ basis panel */
+
+.jp-basis {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .jp-basis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.jp-atlas {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
+
+.jp-basis-atlas p {
+  margin: 8px 0 0;
+}
+
+.jp-buildup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.jp-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.jp-tiles figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.jp-tiles figcaption {
+  font: 11px var(--mono);
+  color: var(--muted);
+  margin-top: 5px;
+  text-align: center;
+}
+
+.jp-tile {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  image-rendering: pixelated;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+}
+
+.jp-tile-empty {
+  display: grid;
+  place-items: center;
+  font: 11px var(--mono);
+  color: var(--faint);
+  border-style: dashed;
+  text-align: center;
+  padding: 6px;
+}

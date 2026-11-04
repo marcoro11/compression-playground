@@ -1248,9 +1248,26 @@ input[type='range'] {
   font-size: 10.5px;
 }
 
+/* On a phone: label and value share a line, the bar gets the full width below. */
 @media (max-width: 560px) {
   .sizebar {
-    grid-template-columns: 90px minmax(0, 1fr) 110px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'label value' 'track track';
+    row-gap: 3px;
+  }
+  .sizebar-label {
+    grid-area: label;
+  }
+  .sizebar-value {
+    grid-area: value;
+    min-width: 0;
+  }
+  .sizebar-value small {
+    max-width: 48vw;
+    margin-left: auto;
+  }
+  .sizebar-track {
+    grid-area: track;
   }
 }
 
