@@ -1,0 +1,242 @@
+/* Integer codes. Shared variables only, so dark mode follows. */
+
+.ic-input {
+  width: 100%;
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  background: var(--paper);
+  padding: 6px 10px;
+  font: 500 15px var(--mono);
+  outline: none;
+}
+
+.ic-input:focus {
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+.ic-table td {
+  vertical-align: top;
+}
+
+.ic-table td:first-child {
+  white-space: nowrap;
+}
+
+.ic-table td:first-child .muted {
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.ic-cw {
+  white-space: normal !important;
+  word-break: break-all;
+  min-width: 140px;
+}
+
+.ic-bits {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  font: 500 12.5px/1.6 var(--mono);
+}
+
+.ic-part {
+  border-radius: 3px;
+  padding: 0 3px;
+  letter-spacing: 0.06em;
+  color: var(--hl-ink);
+  word-break: break-all;
+}
+
+.narration code.hl-1,
+.narration code.hl-3,
+.narration code.hl-4,
+.narration code.hl-6 {
+  color: var(--hl-ink);
+  border-color: transparent;
+}
+
+.ic-chart {
+  display: block;
+  width: 100%;
+  min-width: 520px;
+  height: auto;
+}
+
+.ic-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 6px;
+}
+
+.ic-keys button {
+  border: 0;
+  background: transparent;
+  padding: 2px 0;
+  font: 11.5px var(--mono);
+  color: var(--ink-2);
+  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ic-keys i {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.ic-distctl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 640px) {
+  .ic-distctl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ic-dist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ic-distrow {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 120px;
+  gap: 10px;
+  align-items: center;
+  font: 12px var(--mono);
+}
+
+.ic-distrow .sizebar-track {
+  position: relative;
+}
+
+.ic-distrow.win .ic-distname {
+  font-weight: 700;
+}
+
+.ic-distrow.win .ic-distval {
+  color: var(--good);
+  font-weight: 700;
+}
+
+.ic-distname small,
+.ic-distval small {
+  display: block;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 400;
+}
+
+.ic-distval {
+  text-align: right;
+}
+
+.ic-hline {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--ink);
+}
+
+@media (max-width: 560px) {
+  .ic-distrow {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'name val' 'track track';
+    row-gap: 3px;
+  }
+  .ic-distname {
+    grid-area: name;
+  }
+  .ic-distval {
+    grid-area: val;
+  }
+  .ic-distrow .sizebar-track {
+    grid-area: track;
+  }
+}
+
+.ic-streamctl {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ic-stream {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  font: 500 13px/1.7 var(--mono);
+}
+
+.ic-stream i {
+  font-style: normal;
+  width: 0.95em;
+  text-align: center;
+  color: var(--hl-ink);
+  transition: opacity 0.12s;
+}
+
+.ic-stream i.gap {
+  margin-left: 6px;
+}
+
+.ic-stream i.unread {
+  background: transparent;
+  color: var(--muted);
+}
+
+.ic-stream i.cur {
+  outline: 2px solid var(--ink);
+  outline-offset: 0;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.ic-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.ic-num {
+  min-width: 26px;
+  height: 24px;
+  padding: 0 5px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: 3px;
+  font: 500 12.5px var(--mono);
+  color: var(--faint);
+}
+
+.ic-num.done {
+  border-style: solid;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.ic-num.busy {
+  border-color: var(--ink);
+}
+
+.ic-num.fresh {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+}
