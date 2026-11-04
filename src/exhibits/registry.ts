@@ -10,6 +10,13 @@ import { Deflate } from './deflate/Deflate'
 import { Bwt } from './bwt/Bwt'
 import { Jpeg } from './jpeg/Jpeg'
 import { BenchView } from './bench/BenchView'
+import { Ans } from './ans/Ans'
+import { IntCodes } from './intcodes/IntCodes'
+import { Ppm } from './ppm/Ppm'
+import { Png } from './png/Png'
+import { Flac } from './flac/Flac'
+import { Wavelet } from './wavelet/Wavelet'
+import { Palette } from './palette/Palette'
 
 export { TIERS, META } from './meta'
 
@@ -24,6 +31,13 @@ const COMPONENTS: Record<string, ComponentType> = {
   bwt: Bwt,
   jpeg: Jpeg,
   bench: BenchView,
+  ans: Ans,
+  intcodes: IntCodes,
+  ppm: Ppm,
+  png: Png,
+  flac: Flac,
+  wavelet: Wavelet,
+  palette: Palette,
 }
 
 export interface Exhibit extends ExhibitMeta {

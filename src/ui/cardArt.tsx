@@ -281,4 +281,206 @@ const bench = () => {
   )
 }
 
-export const CARD_ART: Record<string, () => ReactNode> = { entropy, rle, huffman, arithmetic, lz77, lzw, deflate, bwt, jpeg, bench }
+const ans = () => {
+  // The state x on a log scale: each symbol pushes it up by log2(1/p); renormalisation drops it back.
+  const xs = [30, 52, 61, 84, 46, 70, 92, 55, 63, 88]
+  const pts = xs.map((v, i) => [24 + i * 27, 100 - v] as const)
+  return (
+    <Svg>
+      <line x1={18} x2={286} y1={20} y2={20} stroke={muted} strokeDasharray="4 3" />
+      <text x={22} y={14} fontSize={9.5} fill={muted}>
+        renormalise → emit bits
+      </text>
+      <polyline points={pts.map((p) => p.join(',')).join(' ')} fill="none" stroke={ink} strokeWidth={1.6} />
+      {pts.map(([x, y], i) => (
+        <rect key={i} x={x - 4} y={y - 4} width={8} height={8} fill={hl((i % 6) + 1)} stroke={ink} />
+      ))}
+      <line x1={18} x2={286} y1={100} y2={100} stroke={ink} />
+      <text x={22} y={95} fontSize={9.5} fill={muted}>
+        log₂ x
+      </text>
+    </Svg>
+  )
+}
+
+const intcodes = () => {
+  const rows: [string, string][] = [
+    ['1', ''],
+    ['01', '0'],
+    ['01', '1'],
+    ['001', '00'],
+    ['001', '01'],
+    ['0001', '000'],
+  ]
+  return (
+    <Svg>
+      {rows.map(([pre, suf], i) => (
+        <g key={i}>
+          <text x={60} y={18 + i * 16} fontSize={10} textAnchor="end" fill={muted}>
+            {i + 1}
+          </text>
+          {pre.split('').map((b, j) => (
+            <Cell key={'p' + j} x={70 + j * 15} y={8 + i * 16} w={14} h={14} ch={b} fill={hl(6)} />
+          ))}
+          {suf.split('').map((b, j) => (
+            <Cell key={'s' + j} x={70 + (pre.length + j) * 15} y={8 + i * 16} w={14} h={14} ch={b} fill={hl(3)} />
+          ))}
+        </g>
+      ))}
+      <path d="M 200 98 Q 230 60 280 14" fill="none" stroke={ink} strokeWidth={1.4} />
+      <text x={214} y={100} fontSize={9.5} fill={muted}>
+        2·log₂n
+      </text>
+    </Svg>
+  )
+}
+
+const ppm = () => {
+  const ctx = 'compressio'.split('')
+  const bars: [string, number][] = [
+    ['n', 0.86],
+    ['u', 0.06],
+    ['esc', 0.08],
+  ]
+  return (
+    <Svg>
+      {ctx.map((c, i) => (
+        <Cell key={i} x={14 + i * 17} y={14} w={16} h={20} ch={c} fill={i >= 7 ? hl(5) : 'var(--paper)'} />
+      ))}
+      <Cell x={14 + 10 * 17} y={14} w={16} h={20} ch="?" stroke={ink} />
+      {bars.map(([s, p], i) => (
+        <g key={s}>
+          <text x={34} y={58 + i * 18} fontSize={10.5} textAnchor="end" fill={ink}>
+            {s}
+          </text>
+          <rect x={40} y={48 + i * 18} width={230 * p} height={13} fill={i === 0 ? hl(5) : 'var(--line-strong)'} stroke={ink} strokeWidth={0.8} />
+        </g>
+      ))}
+    </Svg>
+  )
+}
+
+const png = () => {
+  const g = (x: number, y: number) => Math.round(70 + 9 * x + 6 * y)
+  const cells: ReactNode[] = []
+  for (let y = 0; y < 5; y++)
+    for (let x = 0; x < 7; x++) {
+      const v = g(x, y)
+      cells.push(<rect key={x + ':' + y} x={20 + x * 16} y={14 + y * 16} width={15} height={15} fill={`rgb(${v},${v + 20},${v + 40})`} />)
+    }
+  const lbl = (x: number, y: number, t: string, f: string) => (
+    <g>
+      <rect x={20 + x * 16} y={14 + y * 16} width={15} height={15} fill={f} stroke={ink} strokeWidth={1.5} />
+      <text x={20 + x * 16 + 7.5} y={14 + y * 16 + 11} fontSize={10} textAnchor="middle" fill="var(--hl-ink)">
+        {t}
+      </text>
+    </g>
+  )
+  return (
+    <Svg>
+      {cells}
+      {lbl(3, 2, 'c', hl(4))}
+      {lbl(4, 2, 'b', hl(4))}
+      {lbl(3, 3, 'a', hl(4))}
+      {lbl(4, 3, 'x', hl(1))}
+      <text x={150} y={52} fontSize={11} fill={ink}>
+        x − Paeth(a, b, c)
+      </text>
+      <text x={150} y={72} fontSize={11} fill={muted}>
+        = 0, 0, 1, 0, −1, 0 …
+      </text>
+    </Svg>
+  )
+}
+
+const flac = () => {
+  const n = 120
+  let wave = ''
+  let res = ''
+  for (let i = 0; i < n; i++) {
+    const x = 16 + i * 2.25
+    const v = Math.sin(i / 7) * 0.7 + Math.sin(i / 2.3) * 0.2
+    const r = Math.sin(i * 1.7) * 0.06 + Math.sin(i * 0.9) * 0.03
+    wave += `${i ? 'L' : 'M'} ${x} ${44 - v * 30} `
+    res += `${i ? 'L' : 'M'} ${x} ${92 - r * 60} `
+  }
+  return (
+    <Svg>
+      <path d={wave} fill="none" stroke={ink} strokeWidth={1.5} />
+      <line x1={16} x2={286} y1={92} y2={92} stroke={'var(--line-strong)'} />
+      <path d={res} fill="none" stroke="var(--good)" strokeWidth={1.5} />
+      <text x={286} y={84} fontSize={9.5} textAnchor="end" fill={muted}>
+        residual
+      </text>
+    </Svg>
+  )
+}
+
+const wavelet = () => {
+  const s = 92
+  const x0 = 104
+  const y0 = 10
+  return (
+    <Svg>
+      <rect x={x0} y={y0} width={s} height={s} fill="var(--paper)" stroke={ink} />
+      <rect x={x0} y={y0} width={s / 2} height={s / 2} fill="var(--paper)" stroke={ink} />
+      <rect x={x0} y={y0} width={s / 4} height={s / 4} fill="var(--paper)" stroke={ink} />
+      <rect x={x0} y={y0} width={s / 8} height={s / 8} fill={hl(4)} stroke={ink} />
+      <text x={x0 + s * 0.75} y={y0 + s * 0.27} fontSize={10} textAnchor="middle" fill={muted}>
+        HL
+      </text>
+      <text x={x0 + s * 0.25} y={y0 + s * 0.77} fontSize={10} textAnchor="middle" fill={muted}>
+        LH
+      </text>
+      <text x={x0 + s * 0.75} y={y0 + s * 0.77} fontSize={10} textAnchor="middle" fill={muted}>
+        HH
+      </text>
+      <text x={x0 + s * 0.375} y={y0 + s * 0.15} fontSize={8} textAnchor="middle" fill={muted}>
+        HL
+      </text>
+      <text x={x0 + s * 0.125} y={y0 + s * 0.39} fontSize={8} textAnchor="middle" fill={muted}>
+        LH
+      </text>
+    </Svg>
+  )
+}
+
+const palette = () => {
+  const cells: ReactNode[] = []
+  const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5]
+  for (let y = 0; y < 10; y++)
+    for (let x = 0; x < 22; x++) {
+      const t = x / 21
+      const on = t * 16 > bayer[(y % 4) * 4 + (x % 4)]
+      cells.push(<rect key={x + ':' + y} x={20 + x * 8} y={10 + y * 8} width={8} height={8} fill={on ? hl(2) : hl(4)} />)
+    }
+  const sw = [1, 2, 3, 4, 5, 6]
+  return (
+    <Svg>
+      {cells}
+      {sw.map((k, i) => (
+        <rect key={k} x={210 + (i % 3) * 24} y={22 + Math.floor(i / 3) * 24} width={20} height={20} rx={3} fill={hl(k)} stroke={ink} />
+      ))}
+    </Svg>
+  )
+}
+
+export const CARD_ART: Record<string, () => ReactNode> = {
+  entropy,
+  rle,
+  huffman,
+  arithmetic,
+  ans,
+  intcodes,
+  lz77,
+  lzw,
+  ppm,
+  png,
+  flac,
+  deflate,
+  bwt,
+  jpeg,
+  wavelet,
+  palette,
+  bench,
+}
