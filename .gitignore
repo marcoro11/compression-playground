@@ -1,0 +1,8 @@
+node_modules
+dist
+*.tsbuildinfo
+.DS_Store
+*.local
+
+# Machine-specific tool settings; launch.json is shared, this one isn't.
+.claude/settings.local.json
