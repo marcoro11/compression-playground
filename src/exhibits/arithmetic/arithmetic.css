@@ -1,0 +1,278 @@
+/* Arithmetic coding: interval stacks and coder registers. */
+
+.ar-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-row,
+.ar-zoom {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 92px;
+  gap: 8px;
+  align-items: center;
+}
+
+.ar-row-label,
+.ar-row-right {
+  font: 11px var(--mono);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ar-row-right {
+  text-align: left;
+  color: var(--ink-2);
+}
+
+.ar-bar {
+  display: flex;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.ar-slice {
+  display: grid;
+  place-items: center;
+  font: 500 12px var(--mono);
+  border-right: 1px solid var(--line-strong);
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
+  transition: opacity 0.15s;
+}
+
+.ar-slice:last-child {
+  border-right: 0;
+}
+
+.ar-slice.off {
+  opacity: 0.28;
+}
+
+.ar-slice.chosen {
+  box-shadow: inset 0 0 0 2px var(--ink);
+  font-weight: 700;
+}
+
+.ar-slice.pending {
+  box-shadow: inset 0 0 0 2px var(--ink);
+  background-image: repeating-linear-gradient(45deg, transparent 0 4px, color-mix(in srgb, var(--ink) 12%, transparent) 4px 6px);
+}
+
+.ar-slice.final {
+  background: var(--accent);
+  color: #1b1a17; /* --accent stays pastel in dark mode, so its text stays dark */
+}
+
+.ar-zoom svg {
+  display: block;
+  width: 100%;
+  height: 22px;
+  overflow: visible;
+}
+
+.ar-zoom line {
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+
+.ar-zoom-fill {
+  fill: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.ar-regs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ar-reg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ar-reg-name {
+  font: 11px var(--mono);
+  color: var(--muted);
+  width: 32px;
+  flex: none;
+}
+
+.ar-reg-num {
+  font: 11px var(--mono);
+  color: var(--faint);
+}
+
+.ar-frac {
+  font: 12.5px var(--mono);
+  word-break: break-all;
+  min-width: 0;
+}
+
+.ar-settled {
+  background: var(--accent);
+  color: #1b1a17; /* --accent stays pastel in dark mode, so its text stays dark */
+  border-radius: 2px;
+}
+
+.ar-code {
+  background: var(--accent);
+  color: #1b1a17; /* --accent stays pastel in dark mode, so its text stays dark */
+  word-break: break-all;
+}
+
+.ar-bits {
+  display: flex;
+  gap: 2px;
+}
+
+.ar-bit {
+  width: 18px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  font: 500 12px var(--mono);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--bit0);
+}
+
+.ar-bit.one {
+  color: var(--bit1);
+  font-weight: 700;
+}
+
+.ar-bit.hot {
+  background: var(--accent);
+  color: #1b1a17; /* --accent stays pastel in dark mode, so its text stays dark */
+  border-color: var(--ink);
+}
+
+.ar-range {
+  margin-top: 4px;
+}
+
+.ar-range-track {
+  position: relative;
+  height: 34px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.ar-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed var(--line-strong);
+  z-index: 3;
+}
+
+.ar-tick.half {
+  border-left: 1.5px solid var(--ink);
+}
+
+.ar-prev {
+  position: absolute;
+  top: 0;
+  height: 10px;
+  background: var(--line-strong);
+}
+
+.ar-rslice {
+  position: absolute;
+  top: 10px;
+  height: 10px;
+  border-right: 1px solid var(--card);
+}
+
+.ar-cur {
+  position: absolute;
+  bottom: 0;
+  height: 14px;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  transition: left 0.15s, width 0.15s;
+}
+
+.ar-range-scale {
+  position: relative;
+  height: 16px;
+  font: 10px var(--mono);
+  color: var(--muted);
+}
+
+.ar-range-scale span {
+  position: absolute;
+  top: 2px;
+  transform: translateX(-50%);
+}
+
+.ar-range-scale span:first-child {
+  transform: none;
+}
+
+.ar-range-scale span:last-child {
+  transform: translateX(-100%);
+}
+
+.ar-legend-prev {
+  background: var(--line-strong);
+}
+
+.ar-legend-cur {
+  background: var(--accent);
+}
+
+@media (max-width: 560px) {
+  .ar-row,
+  .ar-zoom {
+    grid-template-columns: 30px minmax(0, 1fr) 62px;
+    gap: 5px;
+  }
+  .ar-bit {
+    width: 16px;
+    height: 22px;
+    font-size: 11px;
+  }
+  .ar-bits {
+    gap: 1px;
+  }
+  .ar-reg-num {
+    display: none;
+  }
+}
+
+/* Tooltips on these stats anchor to the whole stats block, full width, so a
+   bubble on the right-hand card cannot push the page sideways on a phone. */
+.ar-stats {
+  position: relative;
+}
+
+.ar-stats .stat,
+.ar-stats .help {
+  position: static;
+}
+
+.ar-stats .help-bubble,
+.ar-stats .help:hover .help-bubble,
+.ar-stats .help:focus-within .help-bubble {
+  left: 0;
+  right: 0;
+  width: auto;
+  bottom: calc(100% + 6px);
+  transform: none;
+}

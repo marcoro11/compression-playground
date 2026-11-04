@@ -121,7 +121,7 @@ export function TreeView({
             strokeWidth={isHot || lit || isPending ? 2.2 : 1}
             strokeDasharray={isPending ? '3 2' : undefined}
           />
-          <text x={p.x} y={p.y + 4.5} fontSize={12.5} textAnchor="middle" fill={isHot || lit || cls ? 'var(--hl-ink)' : 'var(--ink)'}>
+          <text x={p.x} y={p.y + 4.5} fontSize={12.5} textAnchor="middle" fill={isHot || lit ? 'var(--accent-ink)' : cls ? 'var(--hl-ink)' : 'var(--ink)'}>
             {glyph(n.symbol)}
           </text>
           <text x={p.x} y={p.y + 25} fontSize={9.5} textAnchor="middle" fill="var(--muted)">
@@ -141,7 +141,7 @@ export function TreeView({
             strokeWidth={isHot || isPending ? 2.2 : 1.2}
             strokeDasharray={isPending ? '3 2' : undefined}
           />
-          <text x={p.x} y={p.y + 3.5} fontSize={9.5} textAnchor="middle" fill={lit && !isHot ? 'var(--paper)' : isHot ? 'var(--hl-ink)' : 'var(--ink)'}>
+          <text x={p.x} y={p.y + 3.5} fontSize={9.5} textAnchor="middle" fill={lit && !isHot ? 'var(--paper)' : isHot ? 'var(--accent-ink)' : 'var(--ink)'}>
             {n.weight}
           </text>
         </g>,
