@@ -28,6 +28,12 @@ const COMPONENTS: Record<string, ComponentType> = {
   jpeg: named(() => import('./jpeg/Jpeg'), 'Jpeg'),
   wavelet: named(() => import('./wavelet/Wavelet'), 'Wavelet'),
   palette: named(() => import('./palette/Palette'), 'Palette'),
+  lz4: named(() => import('./lz4/Lz4'), 'Lz4'),
+  qoi: named(() => import('./qoi/Qoi'), 'Qoi'),
+  zstd: named(() => import('./zstd/Zstd'), 'Zstd'),
+  lzma: named(() => import('./lzma/Lzma'), 'Lzma'),
+  perceptual: named(() => import('./perceptual/Perceptual'), 'Perceptual'),
+  video: named(() => import('./video/Video'), 'Video'),
   bench: named(() => import('./bench/BenchView'), 'BenchView'),
 }
 
