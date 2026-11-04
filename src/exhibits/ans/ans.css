@@ -1,0 +1,280 @@
+/* ANS: slot strips, registers, the state ledger and the tANS table. */
+
+.ans-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.ans-slot {
+  min-width: 24px;
+  height: 34px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  font: 500 12px/1.1 var(--mono);
+  transition: opacity 0.12s;
+}
+
+.ans-slot i {
+  font-style: normal;
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.ans-slot.off,
+.ans-slotbar .off {
+  opacity: 0.3;
+}
+
+.ans-slot.hot {
+  outline: 2.5px solid var(--ink);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+.ans-slotbar {
+  display: flex;
+  height: 30px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ans-slotbar > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  font: 500 12px var(--mono);
+  border-right: 1px solid var(--line-strong);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ans-slotbar > span:last-child {
+  border-right: 0;
+}
+
+.ans-slotbar-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--ink);
+}
+
+/* The big integer. */
+.ans-big {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ans-big > div {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  font-size: 12px;
+}
+
+.ans-big code {
+  background: none;
+  border: 0;
+  padding: 0;
+  word-break: break-all;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ans-formula {
+  margin-top: 10px;
+  font: 12.5px/1.5 var(--mono);
+  padding: 6px 10px;
+  border-left: 3px solid var(--accent);
+  background: var(--paper);
+  word-break: break-word;
+}
+
+/* Registers. */
+.ans-regs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ans-reg {
+  display: grid;
+  grid-template-columns: 64px auto 56px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  font: 12px var(--mono);
+}
+
+.ans-reg-label {
+  color: var(--muted);
+  text-align: right;
+}
+
+.ans-reg-bits {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.ans-reg-bits i {
+  font-style: normal;
+  width: 15px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: var(--paper);
+  font-weight: 600;
+}
+
+.ans-reg-bits i.lead {
+  color: var(--faint);
+  font-weight: 400;
+}
+
+.ans-reg-bits i.leaving {
+  background: var(--hl-1);
+  color: var(--hl-ink);
+  border-style: dashed;
+}
+
+.ans-reg-bits i.arriving {
+  background: var(--hl-3);
+  color: var(--hl-ink);
+}
+
+.ans-reg-dec {
+  font-weight: 600;
+  text-align: right;
+}
+
+.ans-reg-note {
+  color: var(--ink-2);
+  font-size: 11.5px;
+}
+
+@media (max-width: 640px) {
+  .ans-reg {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    row-gap: 2px;
+  }
+  .ans-reg-bits {
+    flex-wrap: wrap;
+  }
+  .ans-reg-bits i {
+    width: 13px;
+  }
+  .ans-reg-note {
+    grid-column: 2 / -1;
+  }
+}
+
+.ans-popped {
+  margin-top: 6px;
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+
+/* Ledger. */
+.ans-ledger {
+  margin-top: 14px;
+}
+
+.ans-ledger svg {
+  display: block;
+  width: 100%;
+  height: 120px;
+}
+
+.ans-ledger .axis {
+  stroke: var(--line-strong);
+}
+
+.ans-ledger .tick {
+  font: 10px var(--mono);
+  fill: var(--muted);
+}
+
+.ans-ledger .ideal {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.ans-ledger .actual {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.ans-ledger .now {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.ans-dash {
+  border: 0 !important;
+  height: 0 !important;
+  border-top: 2px dashed var(--muted) !important;
+}
+
+/* tANS grid. */
+.ans-tgrid {
+  display: grid;
+  gap: 3px;
+}
+
+.ans-tcell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 1px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  font: 11px/1.2 var(--mono);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ans-tcell b {
+  font-size: 13.5px;
+}
+
+.ans-tstate {
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.ans-tnb {
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.ans-tcell.hot {
+  outline: 2.5px solid var(--ink);
+  outline-offset: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.ans-tcount {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .ans-tgrid {
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+  }
+}
