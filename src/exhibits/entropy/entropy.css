@@ -1,0 +1,175 @@
+/* Surprisal heat: six buckets of the pink highlighter mixed into the paper. */
+.cell.heat-0 {
+  background: var(--paper);
+}
+.cell.heat-1 {
+  background: color-mix(in srgb, var(--hl-2) 22%, var(--paper));
+}
+.cell.heat-2 {
+  background: color-mix(in srgb, var(--hl-2) 42%, var(--paper));
+}
+.cell.heat-3 {
+  background: color-mix(in srgb, var(--hl-2) 62%, var(--paper));
+}
+.cell.heat-4 {
+  background: color-mix(in srgb, var(--hl-2) 82%, var(--paper));
+}
+.cell.heat-5 {
+  background: var(--hl-2);
+  color: var(--hl-ink);
+  border-color: var(--ink);
+}
+.legend i.heat-0 {
+  background: var(--paper);
+}
+.legend i.heat-1 {
+  background: color-mix(in srgb, var(--hl-2) 22%, var(--paper));
+}
+.legend i.heat-2 {
+  background: color-mix(in srgb, var(--hl-2) 42%, var(--paper));
+}
+.legend i.heat-3 {
+  background: color-mix(in srgb, var(--hl-2) 62%, var(--paper));
+}
+.legend i.heat-4 {
+  background: color-mix(in srgb, var(--hl-2) 82%, var(--paper));
+}
+.legend i.heat-5 {
+  background: var(--hl-2);
+}
+
+.ent-hover {
+  font: 12.5px var(--mono);
+  min-height: 20px;
+  margin-top: 10px;
+  color: var(--ink-2);
+}
+
+.ent-bar {
+  display: inline-block;
+  height: 10px;
+  background: var(--accent);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+table.data tr.ent-later td {
+  color: var(--faint);
+}
+
+.ent-ctx {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  align-items: center;
+  font: 12px var(--mono);
+}
+
+.ent-ctx .track {
+  height: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.ent-ctx .fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.ent-ctx .fill.shaky {
+  background: repeating-linear-gradient(45deg, var(--accent) 0 5px, color-mix(in srgb, var(--accent) 35%, var(--paper)) 5px 10px);
+}
+
+.ent-ctx small {
+  display: block;
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.ent-warn {
+  margin: 12px 0 0;
+  font-size: 13px;
+  border-left: 3px solid var(--bad);
+  padding: 2px 10px;
+  color: var(--ink-2);
+}
+
+/* Shannon's game */
+.ent-game-text {
+  font: 500 17px/1.9 var(--mono);
+  word-break: break-all;
+  margin: 4px 0 10px;
+}
+
+.ent-game-text span {
+  display: inline-block;
+  min-width: 0.62em;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.ent-game-text .todo {
+  color: var(--faint);
+}
+
+.ent-game-text .here {
+  outline: 2px solid var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
+  animation: ent-blink 1s steps(1) infinite;
+}
+
+@keyframes ent-blink {
+  50% {
+    background: transparent;
+  }
+}
+
+.ent-game-text sup {
+  font-size: 9px;
+  color: var(--muted);
+  margin-left: 1px;
+}
+
+.ent-game-input {
+  width: 100%;
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  background: var(--paper);
+  padding: 8px 10px;
+  font: 14px var(--mono);
+  outline: none;
+}
+
+.ent-game-input:focus {
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+.ent-tried {
+  font: 12px var(--mono);
+  color: var(--muted);
+  min-height: 18px;
+  margin-top: 6px;
+}
+
+.ent-tried s {
+  color: var(--bad);
+  margin-right: 4px;
+}
+
+/* Pigeonhole */
+.ent-pigeon {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.ent-pigeon .long {
+  cursor: pointer;
+}

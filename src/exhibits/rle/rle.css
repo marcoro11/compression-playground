@@ -1,0 +1,84 @@
+.rle-canvas {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 0 auto;
+  touch-action: none;
+  user-select: none;
+  cursor: crosshair;
+}
+
+.rle-rows {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  font: 12px var(--mono);
+}
+
+.rle-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+}
+
+.rle-row > b {
+  width: 46px;
+  font-weight: 500;
+  color: var(--muted);
+  flex: none;
+}
+
+.rle-run {
+  min-width: 22px;
+  padding: 0 4px;
+  text-align: center;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  line-height: 18px;
+}
+
+.rle-run.w {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.rle-run.b {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.rle-run.cur {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px var(--ink);
+}
+
+.rle-mh {
+  font: 12px var(--mono);
+  margin-top: 10px;
+  color: var(--ink-2);
+}
+
+.rle-mh code {
+  background: var(--hl-2);
+  color: var(--hl-ink);
+}
+
+.cell.rle-hdr {
+  border: 1.5px solid var(--ink);
+  font-weight: 700;
+  font-size: 10.5px;
+}
+
+.rle-legend i.w {
+  background: var(--paper);
+}
+
+.rle-legend i.b {
+  background: var(--ink);
+}
