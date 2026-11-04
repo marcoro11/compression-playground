@@ -48,7 +48,7 @@ export function Tape({
         onClick={onClick ? () => onClick(i) : undefined}
       >
         {render ? render(i) : glyph(b)}
-        {index && i % 8 === 0 && <sub>{i}</sub>}
+        {index && i % 8 === 0 && <span className="cell-idx">{i}</span>}
       </span>,
     )
   }

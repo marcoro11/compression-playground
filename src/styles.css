@@ -944,7 +944,7 @@ input[type='range'] {
   color: var(--muted);
 }
 
-.cell sub {
+.cell .cell-idx {
   position: absolute;
   top: 100%;
   left: 0;
@@ -1243,6 +1243,7 @@ input[type='range'] {
 
 .sizebar-value small {
   display: block;
+  white-space: normal;
   color: var(--muted);
   font-size: 10.5px;
 }

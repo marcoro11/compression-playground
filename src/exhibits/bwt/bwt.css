@@ -1,0 +1,200 @@
+/* Burrows–Wheeler exhibit: the rotation matrix and the LF-mapping table. */
+
+.bwt-scroll {
+  max-height: 540px;
+  overflow: auto;
+  position: relative;
+  padding: 2px 2px 6px;
+}
+
+.bwt-matrix {
+  position: relative;
+}
+
+.bwt-row {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: 18px;
+  transition:
+    transform 0.7s cubic-bezier(0.45, 0.05, 0.2, 1),
+    opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.bwt-row.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bwt-row .cell,
+.bwt-lf .cell,
+.bwt-mini .cell {
+  min-width: 17px;
+  height: 18px;
+  font-size: 11.5px;
+  padding: 0 2px;
+}
+
+.bwt-row .cell.fcol {
+  border-color: var(--ink);
+}
+
+.bwt-row .cell.lcol {
+  border: 1.5px solid var(--ink);
+  font-weight: 600;
+}
+
+.bwt-row .ell {
+  font: 11px var(--mono);
+  color: var(--faint);
+  width: 16px;
+  text-align: center;
+}
+
+.bwt-label {
+  width: 46px;
+  flex: none;
+  font: 10.5px var(--mono);
+  color: var(--muted);
+  text-align: right;
+  padding-right: 6px;
+}
+
+.bwt-row.cur .bwt-label,
+.bwt-lf-row.cur .bwt-label {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.bwt-row.cur .cell {
+  border-color: var(--ink);
+}
+
+.bwt-marker {
+  margin-left: 8px;
+  font: 600 10.5px var(--mono);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 3px;
+  padding: 0 5px;
+}
+
+.cell.sentinel {
+  font-weight: 700;
+}
+
+/* LF table */
+
+.bwt-lf {
+  position: relative;
+}
+
+.bwt-lf-row {
+  display: flex;
+  align-items: center;
+  height: 21px;
+  gap: 2px;
+}
+
+.bwt-lf .cell {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 26px;
+  min-width: 26px;
+  line-height: 18px;
+}
+
+.bwt-lf .cell sub {
+  position: static;
+  line-height: 1;
+  font-size: 8.5px;
+  color: inherit;
+  opacity: 0.75;
+  margin-left: 1px;
+}
+
+.bwt-lf .gap {
+  width: 70px;
+  text-align: center;
+  font: 11px var(--mono);
+  color: var(--faint);
+}
+
+.bwt-lf svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.bwt-colhead {
+  display: flex;
+  gap: 2px;
+  font: 600 10.5px var(--mono);
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.bwt-colhead span {
+  min-width: 17px;
+  text-align: center;
+}
+
+/* MTF list */
+
+.bwt-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+}
+
+.bwt-mini .idx {
+  display: block;
+  font: 8.5px var(--mono);
+  color: var(--faint);
+  text-align: center;
+}
+
+.bwt-mtf-col {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bwt-listrow {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  margin-bottom: 8px;
+}
+
+.bwt-listrow > span {
+  font: 11px var(--mono);
+  color: var(--muted);
+  padding-top: 2px;
+}
+
+.bwt-num .cell {
+  min-width: 22px;
+}
+
+.bwt-stagebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font: 11.5px var(--mono);
+  color: var(--muted);
+  align-items: center;
+}
+
+.bwt-stagebar b {
+  color: var(--ink);
+}
