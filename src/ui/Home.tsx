@@ -66,7 +66,7 @@ export function Home() {
             Every compressor is a <span className="hl">bet about what comes next</span>.
           </h1>
           <p>
-            Step through the algorithms inside ZIP, PNG, GIF, bzip2 and JPEG one decision at a time — the merge that builds a Huffman tree, the
+            Step through the algorithms inside ZIP, PNG, GIF, FLAC, bzip2, Zstandard and JPEG one decision at a time — the merge that builds a Huffman tree, the
             match a sliding window finds, the interval an arithmetic coder zooms into, the bits of a real gzip stream. Every encoder here produces
             the actual bitstream it describes, and every one decodes it back.
           </p>
