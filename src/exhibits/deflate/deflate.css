@@ -1,0 +1,240 @@
+/* DEFLATE exhibit — only additions on top of the shared vocabulary. */
+
+/* Extra bits: raw numbers that ride along after a code. Striped, so they read as
+   "attached to the coloured code before them" rather than a field of their own. */
+.k-extra {
+  background: repeating-linear-gradient(135deg, var(--line-strong) 0 2px, transparent 2px 5px);
+  color: var(--ink);
+}
+
+.k-pad {
+  background: transparent;
+  color: var(--faint);
+  outline: 1px dashed var(--line-strong);
+  outline-offset: -1px;
+}
+
+.bitspan.k-future {
+  opacity: 0.3;
+}
+
+.cell.k-pastmatch {
+  background: color-mix(in srgb, var(--hl-5) 45%, var(--paper));
+  color: var(--hl-ink);
+}
+
+.cell.k-pastlit {
+  background: color-mix(in srgb, var(--hl-1) 35%, var(--paper));
+  color: var(--hl-ink);
+}
+
+.dfl-legend i.k-extra,
+.dfl-legend i.k-pad {
+  border: 1px solid var(--line-strong);
+}
+
+.dfl-hover {
+  margin-top: 10px;
+  min-height: 40px;
+  font: 12px/1.5 var(--mono);
+  color: var(--ink-2);
+  border-top: 1px dashed var(--line);
+  padding-top: 8px;
+}
+
+.dfl-hover b {
+  color: var(--ink);
+}
+
+.dfl-bits-scroll {
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Length / distance code tables as a grid of chips. */
+.dfl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+  gap: 3px;
+}
+
+.dfl-chip {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font: 11px/1.3 var(--mono);
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+
+.dfl-chip b {
+  font-weight: 600;
+}
+
+.dfl-chip small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.dfl-chip.used {
+  border-color: var(--line-strong);
+}
+
+.dfl-chip.on {
+  background: var(--accent);
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  color: var(--accent-ink);
+}
+
+.dfl-chip.on small {
+  color: var(--accent-ink);
+}
+
+.dfl-chip.unused {
+  opacity: 0.45;
+}
+
+.dfl-token-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.dfl-field {
+  display: grid;
+  grid-template-columns: minmax(70px, auto) minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  font: 12px var(--mono);
+}
+
+.dfl-field .bitspan {
+  justify-self: start;
+  padding: 1px 4px;
+  letter-spacing: 0.06em;
+}
+
+.dfl-field span:last-child {
+  color: var(--ink-2);
+}
+
+.dfl-sub {
+  font: 600 11px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 14px 0 6px;
+}
+
+.dfl-sub:first-child {
+  margin-top: 0;
+}
+
+.dfl-bars svg {
+  display: block;
+  width: 100%;
+  height: 64px;
+}
+
+.dfl-axis {
+  display: flex;
+  justify-content: space-between;
+  font: 10px var(--mono);
+  color: var(--faint);
+}
+
+.dfl-cl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.dfl-cl span {
+  font: 11px/1 var(--mono);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 4px 5px;
+  background: var(--paper);
+}
+
+.dfl-cl span.rep {
+  background: var(--hl-4);
+  color: var(--hl-ink);
+}
+
+.dfl-cl span.zero {
+  background: var(--paper-2);
+  color: var(--muted);
+  border-style: dashed;
+}
+
+.dfl-cl span.on {
+  outline: 2px solid var(--ink);
+}
+
+.dfl-order {
+  display: grid;
+  grid-template-columns: repeat(19, minmax(0, 1fr));
+  gap: 2px;
+  font: 11px var(--mono);
+  text-align: center;
+}
+
+.dfl-order div {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 2px 0;
+  background: var(--paper);
+  min-width: 0;
+}
+
+.dfl-order div small {
+  display: block;
+  color: var(--muted);
+  font-size: 9.5px;
+}
+
+.dfl-order div.cut {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+@media (max-width: 640px) {
+  .dfl-order {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+}
+
+.dfl-check {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+}
+
+.dfl-check .ok {
+  color: var(--good);
+  font-weight: 600;
+}
+
+.dfl-check .bad {
+  color: var(--bad);
+  font-weight: 600;
+}
+
+.dfl-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 12px var(--mono);
+}
+
+.dfl-blocks div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
