@@ -64,7 +64,7 @@ export function TopBar({ current }: { current?: string }) {
             style={{ '--accent': m.accent } as CSSProperties}
             title={m.title}
           >
-            {m.title}
+            {m.short}
           </a>
         ))}
       </div>

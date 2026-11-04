@@ -1,0 +1,213 @@
+/* Wavelet exhibit. Shared variables only, so dark mode follows. */
+
+.wv-px {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.wv-upload {
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.wv-upload.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.wv-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------ image panes */
+
+.wv-panes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.wv-panes.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .wv-panes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.wv-pane {
+  margin: 0;
+  min-width: 0;
+}
+
+.wv-frame {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--paper-2);
+}
+
+.wv-frame.pickable {
+  cursor: crosshair;
+}
+
+.wv-mark {
+  position: absolute;
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 1px var(--ink);
+  pointer-events: none;
+}
+
+.wv-pane figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  font: 11.5px var(--mono);
+}
+
+.wv-pane figcaption span {
+  color: var(--muted);
+}
+
+.wv-lens-head {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 18px 0 8px;
+  font: 11px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+
+.wv-lens-head .muted {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* --------------------------------------------------------------- mosaic */
+
+.wv-levels {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.wv-mosaic {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--paper);
+}
+
+.wv-mosaic svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.wv-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wv-labels span {
+  position: absolute;
+  font: 600 10.5px var(--mono);
+  padding: 0 3px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------ 1-D views */
+
+.wv-bars {
+  margin: 0 0 6px;
+}
+
+.wv-bars figcaption {
+  font: 11px var(--mono);
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.wv-bars svg {
+  display: block;
+}
+
+.wv-cells {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+
+.wv-cell {
+  flex: 0 0 34px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font: 500 12.5px var(--mono);
+  background: var(--paper);
+}
+
+.wv-cell small {
+  font-size: 8.5px;
+  color: var(--faint);
+  line-height: 1;
+}
+
+.wv-cell.odd {
+  border-style: dashed;
+}
+
+.wv-cell.src {
+  background: color-mix(in srgb, var(--ink) 10%, var(--paper));
+  border-color: var(--ink);
+}
+
+.wv-cell.dst {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--ink);
+}
+
+.wv-cell.dst small {
+  color: var(--accent-ink);
+}
+
+/* -------------------------------------------------------------- RD plot */
+
+.wv-rd svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wv-rd .legend {
+  margin-top: 6px;
+}
+
+.wv-rd .legend i {
+  width: 18px;
+}

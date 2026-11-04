@@ -15,7 +15,7 @@ import { Narration } from '../../ui/Transport'
  * bench without anyone editing this page.
  */
 const modules = import.meta.glob<{ codecs?: Codec[] }>('../*/codec.ts', { eager: true })
-const ORDER = ['rle', 'huffman', 'arithmetic', 'lz77', 'lzw', 'deflate', 'bwt']
+const ORDER = ['rle', 'intcodes', 'huffman', 'arithmetic', 'ans', 'lz77', 'lzw', 'ppm', 'flac', 'deflate', 'bwt']
 const CODECS: Codec[] = Object.entries(modules)
   .sort(([a], [b]) => {
     const ia = ORDER.findIndex((o) => a.includes('/' + o + '/'))

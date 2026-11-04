@@ -31,6 +31,8 @@ with a `?` next to it explains itself.
 |---|---|---|
 | **Huffman Coding** | Build the tree merge by merge, then encode and decode through it | The queue as a shrinking forest, the bits each merge costs, tree codes vs canonical codes, and the length cap solved optimally by package-merge |
 | **Arithmetic Coding** | Zoom into the interval with exact fractions, then watch a 16-bit integer coder do it for real | Nested intervals, settled bits, the E1/E2/E3 renormalisation with pending bits — and the *Skewed* sample at ~0.6 bits/symbol where Huffman must spend 1 |
+| **Asymmetric Numeral Systems** | Push symbols onto one big integer, then run rANS with renormalisation and tANS as a state table | The state's log₂ tracking the ideal code length step for step, why encoding runs backwards, Zstandard's FSE spread — with rANS and tANS codecs on the bench |
+| **Integer Codes** | Write a number in unary, Elias γ/δ/ω, Fibonacci, Golomb–Rice, Exp-Golomb and LEB128 | Each code's prefix and payload, length against log₂n, expected length under geometric/Zipf/uniform sources, and the optimal Golomb parameter |
 
 **Dictionary coders**
 
@@ -38,6 +40,14 @@ with a `?` next to it explains itself.
 |---|---|---|
 | **LZ77** | Slide the window over your text, as triples or LZSS | Each match drawn back to its source, overlapping copies that turn into runs, a decoder copying byte by byte |
 | **LZW** | Watch the phrasebook grow, then rebuild it from codes alone | The table and code width growing, the decoder lagging one step, and the KwKwK case where it must use a code it has not defined yet |
+
+**Predict, then code the surprise**
+
+| | What you do | What you see |
+|---|---|---|
+| **Prediction by Partial Matching** | Step through the context ladder, order k down to −1, escape by escape | Count tables, escape methods A–D, exclusion, what the model expects next — and an order-5 codec that beats DEFLATE on every text sample |
+| **PNG Filters** | Pick a pixel and watch five predictors guess it; switch filters per row | Residual images, the Paeth decision, byte histograms collapsing towards zero, and a real `.png` written with this site's DEFLATE |
+| **Lossless Audio** | Predict a waveform sample by sample with FLAC's fixed predictors and LPC | Residuals far smaller than the signal, Levinson–Durbin, partitioned Rice codes, and gzip failing on the same PCM |
 
 **Real formats**
 
@@ -52,6 +62,8 @@ with a `?` next to it explains itself.
 | | What you do | What you see |
 |---|---|---|
 | **JPEG** | Pick an 8×8 block and step it through the pipeline; drag the quality | DCT, quantization, zigzag and the Annex K Huffman codes with real bit counts, the 64 basis patterns, blocking and ringing — and a real baseline `.jpg` decoded by your browser |
+| **Wavelets** | Lift a row through Haar and CDF 5/3 by hand, then decompose the whole image | The Mallat mosaic, wavelet vs 8×8 DCT at the same bit budget (and the image where the DCT wins), a rate–distortion curve, and the integer 5/3 giving back every pixel |
+| **Palettes & Dithering** | Shrink an image to N colours with median cut or k-means; dither it | Boxes splitting in a draggable 3-D colour cube, Floyd–Steinberg's error arrows pixel by pixel, Bayer and Atkinson — and why dithering looks better but compresses worse |
 
 ## Verifying it
 
@@ -78,6 +90,16 @@ Two kinds of checks:
      −log₂ P(message).
    - JPEG: the zigzag table of T.81 Figure A.6, the DCT against the standard's double sum, the IJG
      quality scaling against Annex K, and a separate parser that reads our `.jpg` back.
+   - PNG: Paeth against the spec's pseudocode on all 256³ inputs; our `.png` files decoded by an
+     independent reader (Node's zlib for CRCs and inflate).
+   - PPM: the classic *abracadabra* context tables, and every model state's probabilities summing to
+     exactly 1 in rational arithmetic.
+   - ANS: a hand-worked rANS example, and the tANS spread visiting every state once.
+   - Wavelets: a hand-worked CDF 5/3 example, the lifting code against the long-hand formulas of
+     ITU T.800, exact integer round trips, Parseval for Haar.
+   - Palettes: Bayer matrices against the bit-interleave formula; error diffusion conserving error.
+   - Integer codes and FLAC: published codewords (Elias, Fibonacci, Exp-Golomb, LEB128), Levinson–
+     Durbin against a direct solve, Rice parameters against brute force.
 
 CI runs typecheck and the full verify before every deploy, so a wrong bit fails the build instead of
 shipping.

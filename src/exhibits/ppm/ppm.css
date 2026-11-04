@@ -1,0 +1,294 @@
+/* PPM: the context ladder, count tables, prediction bars and the bits chart. */
+
+.ppm-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ppm-rung {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 10px;
+  align-items: center;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: 4px;
+  background: var(--paper);
+  font: 12px var(--mono);
+  transition: opacity 0.15s;
+}
+
+.ppm-rung.pending {
+  opacity: 0.45;
+}
+
+.ppm-rung.skip {
+  border-left-color: var(--line-strong);
+}
+
+.ppm-rung.esc {
+  border-left-color: var(--bad);
+}
+
+/* A hit borrows the highlighter of its order for the stripe. */
+.ppm-rung.hl-1,
+.ppm-rung.hl-2,
+.ppm-rung.hl-3,
+.ppm-rung.hl-4,
+.ppm-rung.hl-5 {
+  color: var(--ink);
+  background: var(--paper);
+}
+.ppm-rung.hl-1 {
+  border-left-color: var(--hl-1);
+}
+.ppm-rung.hl-2 {
+  border-left-color: var(--hl-2);
+}
+.ppm-rung.hl-3 {
+  border-left-color: var(--hl-3);
+}
+.ppm-rung.hl-4 {
+  border-left-color: var(--hl-4);
+}
+.ppm-rung.hl-5 {
+  border-left-color: var(--hl-5);
+}
+
+.ppm-rung.on {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+.ppm-rung-order {
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.ppm-rung-ctx {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ppm-rung-status {
+  min-width: 0;
+}
+
+.tape.ppm-mini {
+  flex-wrap: nowrap;
+}
+
+.tape.ppm-mini .cell {
+  min-width: 20px;
+  height: 22px;
+  font-size: 12px;
+}
+
+.ppm-next {
+  min-width: 20px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border: 1.5px dashed var(--ink);
+  border-radius: 3px;
+  font: 600 12px var(--mono);
+  margin-left: 3px;
+}
+
+@media (max-width: 560px) {
+  .ppm-rung {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+  .ppm-rung-status {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Count table */
+
+.ppm-counts td {
+  vertical-align: middle;
+}
+
+.ppm-counts tr.ppm-excl td {
+  opacity: 0.45;
+}
+
+.ppm-counts tr.ppm-excl .cell {
+  text-decoration: line-through;
+}
+
+.ppm-counts tr.ppm-esc-row td {
+  border-top: 1.5px solid var(--line-strong);
+}
+
+.ppm-counts tr.ppm-esc-row.on td {
+  background: color-mix(in srgb, var(--bad) 18%, transparent);
+}
+
+.ppm-bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% - 70px);
+  min-width: 40px;
+  height: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.ppm-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.ppm-bar.esc > span {
+  background: var(--bad);
+  opacity: 0.7;
+}
+
+.ppm-p {
+  display: inline-block;
+  min-width: 62px;
+  text-align: right;
+  margin-left: 6px;
+  font: 11.5px var(--mono);
+  color: var(--ink-2);
+}
+
+/* Update list */
+
+.ppm-updates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ppm-update {
+  font: 12px var(--mono);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 3px 8px;
+  background: var(--paper);
+}
+
+/* Expectation */
+
+.ppm-expect-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 62px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.ppm-expect-row .ppm-bar {
+  width: 100%;
+}
+
+.ppm-expect-row.hit .cell {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+}
+
+.ppm-expect-row.hit .ppm-bar > span {
+  background: var(--ink);
+}
+
+/* Chart */
+
+.ppm-chart svg {
+  display: block;
+  width: 100%;
+  height: 150px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.ppm-chart .bar {
+  cursor: pointer;
+  stroke: none;
+}
+
+.ppm-chart .bar.hl-1 {
+  fill: var(--hl-1);
+}
+.ppm-chart .bar.hl-2 {
+  fill: var(--hl-2);
+}
+.ppm-chart .bar.hl-3 {
+  fill: var(--hl-3);
+}
+.ppm-chart .bar.hl-4 {
+  fill: var(--hl-4);
+}
+.ppm-chart .bar.hl-5 {
+  fill: var(--hl-5);
+}
+
+.ppm-chart .bar.cur {
+  fill: var(--ink);
+}
+
+.ppm-chart .grid {
+  stroke: var(--line);
+  vector-effect: non-scaling-stroke;
+}
+
+.ppm-chart .h0 {
+  stroke: var(--ink);
+  stroke-dasharray: 5 4;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.ppm-chart .avg {
+  fill: none;
+  stroke: var(--bad);
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.ppm-chart .cursor {
+  stroke: var(--ink);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ppm-chart .legend {
+  margin-top: 8px;
+}
+
+.ppm-leg-h0 {
+  border: 0 !important;
+  border-top: 2px dashed var(--ink) !important;
+  height: 0 !important;
+  width: 18px !important;
+}
+
+.ppm-leg-avg {
+  border: 0 !important;
+  border-top: 2px solid var(--bad) !important;
+  height: 0 !important;
+  width: 18px !important;
+}
+
+/* The input box scrolls on phones instead of running for two screens. */
+.ppm-input {
+  position: relative;
+}
+
+@media (max-width: 960px) {
+  .ppm-input {
+    max-height: 230px;
+    overflow-y: auto;
+    padding: 2px;
+  }
+}

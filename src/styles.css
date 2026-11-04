@@ -417,6 +417,15 @@ kbd {
 
 /* ============================================================= page ===== */
 
+.loading {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  font: 13px var(--mono);
+  color: var(--muted);
+}
+
+
 .page,
 .home {
   min-height: 100vh;

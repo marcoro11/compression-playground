@@ -1,29 +1,34 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
 import { META, type ExhibitMeta } from './meta'
-import { Entropy } from './entropy/Entropy'
-import { Rle } from './rle/Rle'
-import { Huffman } from './huffman/Huffman'
-import { Arithmetic } from './arithmetic/Arithmetic'
-import { Lz77 } from './lz77/Lz77'
-import { Lzw } from './lzw/Lzw'
-import { Deflate } from './deflate/Deflate'
-import { Bwt } from './bwt/Bwt'
-import { Jpeg } from './jpeg/Jpeg'
-import { BenchView } from './bench/BenchView'
 
 export { TIERS, META } from './meta'
 
+/**
+ * Each exhibit is its own chunk, loaded when you open it — the index page only
+ * needs the metadata, and seventeen exhibits' worth of tables and step traces
+ * would otherwise all download up front.
+ */
+const named = <K extends string>(load: () => Promise<Record<K, ComponentType>>, name: K) =>
+  lazy(() => load().then((m) => ({ default: m[name] })))
+
 const COMPONENTS: Record<string, ComponentType> = {
-  entropy: Entropy,
-  rle: Rle,
-  huffman: Huffman,
-  arithmetic: Arithmetic,
-  lz77: Lz77,
-  lzw: Lzw,
-  deflate: Deflate,
-  bwt: Bwt,
-  jpeg: Jpeg,
-  bench: BenchView,
+  entropy: named(() => import('./entropy/Entropy'), 'Entropy'),
+  rle: named(() => import('./rle/Rle'), 'Rle'),
+  huffman: named(() => import('./huffman/Huffman'), 'Huffman'),
+  arithmetic: named(() => import('./arithmetic/Arithmetic'), 'Arithmetic'),
+  ans: named(() => import('./ans/Ans'), 'Ans'),
+  intcodes: named(() => import('./intcodes/IntCodes'), 'IntCodes'),
+  lz77: named(() => import('./lz77/Lz77'), 'Lz77'),
+  lzw: named(() => import('./lzw/Lzw'), 'Lzw'),
+  ppm: named(() => import('./ppm/Ppm'), 'Ppm'),
+  png: named(() => import('./png/Png'), 'Png'),
+  flac: named(() => import('./flac/Flac'), 'Flac'),
+  deflate: named(() => import('./deflate/Deflate'), 'Deflate'),
+  bwt: named(() => import('./bwt/Bwt'), 'Bwt'),
+  jpeg: named(() => import('./jpeg/Jpeg'), 'Jpeg'),
+  wavelet: named(() => import('./wavelet/Wavelet'), 'Wavelet'),
+  palette: named(() => import('./palette/Palette'), 'Palette'),
+  bench: named(() => import('./bench/BenchView'), 'BenchView'),
 }
 
 export interface Exhibit extends ExhibitMeta {
