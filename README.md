@@ -1,6 +1,6 @@
 # Compression Playground
 
-A workbench for squeezing bits. Step through the algorithms inside ZIP, PNG, GIF, bzip2 and JPEG one
+A workbench for squeezing bits. Step through the algorithms inside ZIP, PNG, GIF, FLAC, MP3, 7-Zip, Zstandard, bzip2, JPEG and H.264 one
 decision at a time — the merge that builds a Huffman tree, the match a sliding window finds, the
 interval an arithmetic coder zooms into, every field of a real gzip stream.
 
@@ -40,6 +40,7 @@ with a `?` next to it explains itself.
 |---|---|---|
 | **LZ77** | Slide the window over your text, as triples or LZSS | Each match drawn back to its source, overlapping copies that turn into runs, a decoder copying byte by byte |
 | **LZW** | Watch the phrasebook grow, then rebuild it from codes alone | The table and code width growing, the decoder lagging one step, and the KwKwK case where it must use a code it has not defined yet |
+| **LZ4** | Step through tokens, literals, offsets and the 255-run length bytes; then the `.lz4` frame | What a format gives up for speed: byte-aligned fields, one hash probe per position, wild copies — with fixtures from liblz4 and a speed panel against DEFLATE |
 
 **Predict, then code the surprise**
 
@@ -48,6 +49,7 @@ with a `?` next to it explains itself.
 | **Prediction by Partial Matching** | Step through the context ladder, order k down to −1, escape by escape | Count tables, escape methods A–D, exclusion, what the model expects next — and an order-5 codec that beats DEFLATE on every text sample |
 | **PNG Filters** | Pick a pixel and watch five predictors guess it; switch filters per row | Residual images, the Paeth decision, byte histograms collapsing towards zero, and a real `.png` written with this site's DEFLATE |
 | **Lossless Audio** | Predict a waveform sample by sample with FLAC's fixed predictors and LPC | Residuals far smaller than the signal, Levinson–Durbin, partitioned Rice codes, and gzip failing on the same PCM |
+| **QOI** | Walk pixel by pixel through the six ops: run, colour cache, small and medium differences, raw | An op map of the whole image, the 64-slot cache filling up, and QOI's size and speed against this site's PNG |
 
 **Real formats**
 
@@ -55,6 +57,8 @@ with a `?` next to it explains itself.
 |---|---|---|
 | **DEFLATE** | Encode tokens, or parse the stream bit by bit like an inflater | A from-scratch RFC 1951 encoder: hash-chain LZ77 with lazy matching, stored/fixed/dynamic blocks, the three-layer Huffman header, every bit coloured by meaning, a hex dump of the gzip file — then your browser's `DecompressionStream` decodes it |
 | **Burrows–Wheeler** | Sort the rotations, invert with the LF mapping, move-to-front, run-code the zeros | Why sorting by right-context makes runs, and the order-0 entropy dropping through the bzip2 pipeline |
+| **Zstandard** | Step through sequences — literals, match length, offset, repeat offsets — into a real `.zst` frame | Huffman-coded literals, FSE-coded sequence codes (the tANS from the ANS exhibit), the reverse bitstream, and frames Node's own zstd decodes |
+| **LZMA** | Watch every yes/no decision get its own adaptive probability and a range coder charge −log₂p for it | The 12-state machine, rep0–rep3, matched literals, the range coder's carry — and `.lzma` files that `xz` decodes |
 | **The Bench** | Run every codec on one input, a file of your own, or the whole sample set | Real sizes with tables and headers, round-trip ticks, timings, and your browser's own DEFLATE as a reference row |
 
 **Throwing things away**
@@ -64,6 +68,8 @@ with a `?` next to it explains itself.
 | **JPEG** | Pick an 8×8 block and step it through the pipeline; drag the quality | DCT, quantization, zigzag and the Annex K Huffman codes with real bit counts, the 64 basis patterns, blocking and ringing — and a real baseline `.jpg` decoded by your browser |
 | **Wavelets** | Lift a row through Haar and CDF 5/3 by hand, then decompose the whole image | The Mallat mosaic, wavelet vs 8×8 DCT at the same bit budget (and the image where the DCT wins), a rate–distortion curve, and the integer 5/3 giving back every pixel |
 | **Palettes & Dithering** | Shrink an image to N colours with median cut or k-means; dither it | Boxes splitting in a draggable 3-D colour cube, Floyd–Steinberg's error arrows pixel by pixel, Bayer and Atkinson — and why dithering looks better but compresses worse |
+| **Perceptual Audio** | Code a sound at a bitrate you choose, then listen to the original, the result, and the noise alone | MDCT, the threshold of hearing, masking spreading across Bark bands, and perceptual vs uniform bit allocation at the same budget |
+| **Motion Compensation** | Pick a macroblock and watch the search find where it came from; scrub through the GOP | Vector fields, predicted frames, residuals next to plain frame differences, I- vs P-frame bits, the scene cut, and drift when the loop is open |
 
 ## Verifying it
 
@@ -98,6 +104,14 @@ Two kinds of checks:
    - Wavelets: a hand-worked CDF 5/3 example, the lifting code against the long-hand formulas of
      ITU T.800, exact integer round trips, Parseval for Haar.
    - Palettes: Bayer matrices against the bit-interleave formula; error diffusion conserving error.
+   - Zstandard: Node's built-in zstd decodes our frames, and our decoder reads its output at levels
+     1–19; XXH64 and the RFC 8878 predefined FSE tables.
+   - LZMA: `xz` decodes our `.lzma` files and our decoder reads `xz -0/-6/-9` output.
+   - LZ4: blocks and a linked frame produced by liblz4, embedded as fixtures; XXH32 vectors.
+   - QOI: a hand-derived byte stream using every op, and a separate spec-only decoder.
+   - Perceptual audio: MDCT perfect reconstruction, Terhardt's threshold and the Bark scale by hand.
+   - Motion compensation: known shifts found exactly, and a closed-loop decoder that reproduces the
+     encoder bit for bit.
    - Integer codes and FLAC: published codewords (Elias, Fibonacci, Exp-Golomb, LEB128), Levinson–
      Durbin against a direct solve, Rice parameters against brute force.
 

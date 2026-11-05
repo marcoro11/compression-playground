@@ -109,9 +109,10 @@ export function Home() {
         })}
         <footer className="home-foot">
           <p>
-            Nothing here is a mock-up. The DEFLATE exhibit writes streams your browser’s own decompressor accepts; the test suite checks every
-            codec round-trips, checks Huffman against package-merge, LZW against the textbook code sequence, and the encoders against Node’s
-            zlib. One of a series of playgrounds.
+            Nothing here is a mock-up. The DEFLATE, Zstandard and LZMA exhibits write streams that real decompressors accept, and the PNG,
+            QOI and JPEG exhibits write files your browser decodes. The test suite checks every codec round-trips, and pins the algorithms
+            against answers that existed before this site: RFC examples, the standards’ own tables, textbook traces, Node’s zlib and zstd,
+            and xz. One of a series of playgrounds.
           </p>
         </footer>
       </div>

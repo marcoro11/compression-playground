@@ -118,6 +118,17 @@ export const META: ExhibitMeta[] = [
     tier: 'dictionary',
   },
   {
+    slug: 'lz4',
+    title: 'LZ4',
+    short: 'LZ4',
+    kicker: 'Speed over size · 2011',
+    tagline:
+      'No Huffman, no arithmetic, nothing that works bit by bit — just byte-aligned tokens a CPU can copy at memory speed. LZ4 gives up a third of DEFLATE’s ratio and decompresses ten times faster. Here is exactly what it gives up.',
+    tags: ['tokens', 'byte-aligned', 'GB/s'],
+    accent: '#ffe08a',
+    tier: 'dictionary',
+  },
+  {
     slug: 'ppm',
     title: 'Prediction by Partial Matching',
     short: 'PPM',
@@ -151,6 +162,17 @@ export const META: ExhibitMeta[] = [
     tier: 'predict',
   },
   {
+    slug: 'qoi',
+    title: 'QOI',
+    short: 'QOI',
+    kicker: 'Quite OK Image Format · 2021',
+    tagline:
+      'An image format whose whole specification fits on one page: six operations — repeat, look up a recently seen colour, a small difference, a medium one, or give up and send the pixel. Within shouting distance of PNG at many times the speed.',
+    tags: ['runs', 'colour cache', 'one page'],
+    accent: '#7fe0c4',
+    tier: 'predict',
+  },
+  {
     slug: 'deflate',
     title: 'DEFLATE',
     short: 'DEFLATE',
@@ -170,6 +192,28 @@ export const META: ExhibitMeta[] = [
       'Sort every rotation of the text and keep only the last column. It is the same letters, reversible, and suddenly full of runs. Then move-to-front turns the runs into zeros.',
     tags: ['BWT', 'move-to-front', 'bzip2'],
     accent: '#ffe066',
+    tier: 'formats',
+  },
+  {
+    slug: 'zstd',
+    title: 'Zstandard',
+    short: 'Zstd',
+    kicker: 'Facebook · 2016',
+    tagline:
+      'LZ77 matches with repeat-offset memory, literals Huffman-coded, and the match lengths and offsets coded with FSE — the table-driven ANS from earlier. Build a real .zst frame bit by bit and hand it to the zstd built into Node.',
+    tags: ['FSE', 'sequences', 'repeat offsets'],
+    accent: '#ffb070',
+    tier: 'formats',
+  },
+  {
+    slug: 'lzma',
+    title: 'LZMA',
+    short: 'LZMA',
+    kicker: '7-Zip, xz · 1998',
+    tagline:
+      'Every single bit gets its own adaptive probability, learned from the bits before it, and a range coder spends a fraction of a bit on each. A state machine remembers whether the last thing was a match, and four recent distances are one short code away.',
+    tags: ['range coder', 'bit models', 'rep0–rep3'],
+    accent: '#c4a7ff',
     tier: 'formats',
   },
   {
@@ -203,6 +247,28 @@ export const META: ExhibitMeta[] = [
       'A GIF has at most 256 colours. Which 256? Cut the colour cube at the median until there are enough boxes, then hide the missing shades by scattering the error onto the neighbours — Floyd and Steinberg’s trick from 1976.',
     tags: ['median cut', 'k-means', 'Floyd–Steinberg'],
     accent: '#ffa3a8',
+    tier: 'lossy',
+  },
+  {
+    slug: 'perceptual',
+    title: 'Perceptual Audio',
+    short: 'Audio',
+    kicker: 'MP3, AAC · 1993–97',
+    tagline:
+      'A loud tone makes nearby frequencies inaudible — so an encoder can bury its rounding noise exactly there. Split sound into frequency bands with the MDCT, draw the masking curve, put the noise under it, and listen to what you did not hear.',
+    tags: ['MDCT', 'masking', 'bit allocation'],
+    accent: '#ff9fd0',
+    tier: 'lossy',
+  },
+  {
+    slug: 'video',
+    title: 'Motion Compensation',
+    short: 'Video',
+    kicker: 'MPEG, H.264 · 1988–2003',
+    tagline:
+      'Consecutive video frames are nearly identical, just shifted. Find where each block moved from, send that arrow and the small difference — and you have the trick behind every video codec. Drag the search window and watch the residual vanish.',
+    tags: ['motion vectors', 'block matching', 'I/P frames'],
+    accent: '#a5b4ff',
     tier: 'lossy',
   },
   {

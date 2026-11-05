@@ -1,0 +1,212 @@
+/* Motion compensation exhibit. Shared variables only, so dark mode follows;
+   the pictures themselves stay greyscale in either scheme. */
+
+.vd-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper-2);
+}
+
+.vd-canvas.pickable {
+  cursor: crosshair;
+}
+
+.vd-views {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
+}
+
+.vd-views figure,
+.vd-mb figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.vd-views figcaption,
+.vd-mb figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  font: 11.5px var(--mono);
+}
+
+.vd-views figcaption span,
+.vd-mb figcaption span {
+  color: var(--muted);
+}
+
+.vd-frame-ctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vd-frame-ctl input {
+  width: 160px;
+}
+
+.vd-frame-ctl .btn {
+  padding: 3px 9px;
+  font-size: 11.5px;
+}
+
+/* ---------------------------------------------------- macroblock stage */
+
+.vd-mb {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .vd-mb {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .vd-mb .vd-window {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}
+
+.vd-empty {
+  border: 1px dashed var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper-2);
+}
+
+.vd-probes {
+  margin-top: 14px;
+  max-width: 420px;
+}
+
+.vd-probes .small {
+  margin-bottom: 4px;
+}
+
+.vd-coefs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.vd-coef {
+  margin: 0;
+}
+
+.vd-coef-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 22px);
+  grid-auto-rows: 20px;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line-strong);
+  font: 10px var(--mono);
+}
+
+.vd-coef-grid span {
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  color: var(--faint);
+}
+
+.vd-coef-grid span.nz {
+  background: var(--hl-3);
+  color: var(--hl-ink);
+  font-weight: 600;
+}
+
+.vd-coef figcaption {
+  font: 11px var(--mono);
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+  .vd-coef-grid {
+    grid-template-columns: repeat(8, 17px);
+    grid-auto-rows: 17px;
+    font-size: 9px;
+  }
+}
+
+.vd-wire code {
+  white-space: normal;
+  word-break: break-all;
+  font-size: 11px;
+}
+
+table.data td.vd-wire {
+  white-space: normal;
+  max-width: 340px;
+}
+
+/* -------------------------------------------------------------- GOP strip */
+
+.vd-gop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.vd-gop-cell {
+  width: 30px;
+  height: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper);
+  font: 11px var(--mono);
+  cursor: pointer;
+  padding: 0;
+}
+
+.vd-gop-cell b {
+  font-size: 12px;
+}
+
+.vd-gop-cell small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.vd-gop-cell.I {
+  background: var(--hl-5);
+  color: var(--hl-ink);
+}
+
+.vd-gop-cell.I small {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.vd-gop-cell.cut {
+  box-shadow: inset 0 -3px 0 var(--bad);
+}
+
+.vd-gop-cell.cur {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* ------------------------------------------------------------------ chart */
+
+.vd-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vd-chart .legend {
+  margin-top: 6px;
+}

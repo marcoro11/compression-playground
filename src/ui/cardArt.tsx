@@ -465,6 +465,169 @@ const palette = () => {
   )
 }
 
+const lz4 = () => {
+  // token | literals | offset (2 bytes LE) | token …
+  const parts: [string, number, number][] = [
+    ['4|7', 1, 30],
+    ['a', 5, 18],
+    ['b', 5, 18],
+    ['c', 5, 18],
+    ['d', 5, 18],
+    ['04', 3, 22],
+    ['00', 3, 22],
+    ['1|2', 1, 30],
+    ['x', 5, 18],
+    ['0c', 3, 22],
+    ['00', 3, 22],
+  ]
+  let x = 16
+  return (
+    <Svg>
+      {parts.map(([t, c, w], i) => {
+        const el = <Cell key={i} x={x} y={40} w={w} h={26} ch={t} fill={hl(c)} stroke={ink} />
+        x += w + 2
+        return el
+      })}
+      <text x={16} y={30} fontSize={9.5} fill={muted}>
+        token · literals · offset — every field a whole byte
+      </text>
+      <text x={16} y={86} fontSize={9.5} fill={muted}>
+        4 literals, match of 7+4 at distance 4
+      </text>
+    </Svg>
+  )
+}
+
+const qoi = () => {
+  const ops: [string, number, number][] = [
+    ['RGB', 4, 46],
+    ['DIFF', 3, 30],
+    ['DIFF', 3, 30],
+    ['LUMA', 1, 38],
+    ['RUN 9', 6, 40],
+    ['INDEX', 2, 34],
+    ['DIFF', 3, 30],
+  ]
+  let x = 14
+  return (
+    <Svg>
+      {Array.from({ length: 34 }, (_, i) => {
+        const v = Math.round(110 + 60 * Math.sin(i / 6))
+        return <rect key={'p' + i} x={14 + i * 8} y={14} width={8} height={20} fill={`rgb(${v},${Math.round(v * 0.8)},${255 - v})`} />
+      })}
+      {ops.map(([t, c, w], i) => {
+        const el = <Cell key={i} x={x} y={52} w={w} h={24} ch={t} fill={hl(c)} stroke={ink} />
+        x += w + 2
+        return el
+      })}
+      <text x={14} y={96} fontSize={9.5} fill={muted}>
+        hash = (3r + 5g + 7b + 11a) mod 64
+      </text>
+    </Svg>
+  )
+}
+
+const zstd = () => {
+  const rows = [
+    ['LL', 'ML', 'OF'],
+    ['4', '7', 'rep1'],
+    ['0', '12', '1024'],
+    ['2', '5', 'rep2'],
+  ]
+  return (
+    <Svg>
+      <rect x={16} y={14} width={110} height={78} rx={3} fill={hl(1)} stroke={ink} />
+      <text x={71} y={30} fontSize={10} textAnchor="middle" fill="var(--hl-ink)">
+        literals
+      </text>
+      <text x={71} y={50} fontSize={10.5} textAnchor="middle" fill="var(--hl-ink)">
+        Huffman
+      </text>
+      {rows.map((r, i) =>
+        r.map((c, j) => (
+          <Cell key={i + ':' + j} x={140 + j * 46} y={14 + i * 20} w={44} h={18} ch={c} fill={i === 0 ? 'var(--paper)' : hl(j + 4)} stroke={i === 0 ? 'var(--line-strong)' : ink} />
+        )),
+      )}
+      <text x={140} y={102} fontSize={9.5} fill={muted}>
+        sequences → FSE
+      </text>
+    </Svg>
+  )
+}
+
+const lzma = () => {
+  const ps = [0.5, 0.82, 0.31, 0.93, 0.66, 0.12, 0.88, 0.71]
+  return (
+    <Svg>
+      {ps.map((p, i) => (
+        <g key={i}>
+          <rect x={22 + i * 33} y={18} width={26} height={70} fill="var(--paper)" stroke="var(--line-strong)" />
+          <rect x={22 + i * 33} y={18 + 70 * (1 - p)} width={26} height={70 * p} fill={hl(6)} stroke={ink} strokeWidth={0.8} />
+          <text x={35 + i * 33} y={102} fontSize={9.5} textAnchor="middle" fill={muted}>
+            {p.toFixed(2)}
+          </text>
+        </g>
+      ))}
+      <text x={22} y={12} fontSize={9.5} fill={muted}>
+        P(bit = 0), one adaptive model per context
+      </text>
+    </Svg>
+  )
+}
+
+const perceptual = () => {
+  let spec = ''
+  let mask = ''
+  for (let i = 0; i <= 130; i++) {
+    const x = 16 + i * 2.06
+    const f = i / 130
+    const tone = 70 * Math.exp(-(((f - 0.35) / 0.015) ** 2))
+    const v = 18 + 14 * Math.exp(-f * 2.5) + tone + 5 * Math.sin(i * 1.3)
+    const m = 26 + 50 * Math.exp(-(((f - 0.35) / (f < 0.35 ? 0.05 : 0.14)) ** 2)) + 10 * (f > 0.85 ? (f - 0.85) * 10 : 0)
+    spec += `${i ? 'L' : 'M'} ${x} ${100 - v} `
+    mask += `${i ? 'L' : 'M'} ${x} ${100 - m} `
+  }
+  return (
+    <Svg>
+      <path d={mask + ' L 284 100 L 16 100 Z'} fill={hl(2)} opacity={0.55} />
+      <path d={mask} fill="none" stroke={ink} strokeDasharray="4 3" strokeWidth={1.3} />
+      <path d={spec} fill="none" stroke={ink} strokeWidth={1.5} />
+      <text x={200} y={22} fontSize={9.5} fill={muted}>
+        masked: inaudible
+      </text>
+    </Svg>
+  )
+}
+
+const video = () => {
+  const vec: ReactNode[] = []
+  for (let y = 0; y < 4; y++)
+    for (let x = 0; x < 6; x++) {
+      const cx = 30 + x * 22
+      const cy = 22 + y * 22
+      const moving = x >= 2 && x <= 3 && y >= 1 && y <= 2
+      vec.push(<rect key={'b' + x + y} x={cx - 11} y={cy - 11} width={22} height={22} fill={moving ? hl(4) : 'var(--paper)'} stroke="var(--line-strong)" />)
+      if (moving) vec.push(<line key={'v' + x + y} x1={cx} y1={cy} x2={cx - 8} y2={cy + 4} stroke={ink} strokeWidth={1.6} markerEnd="url(#varr)" />)
+      else vec.push(<circle key={'d' + x + y} cx={cx} cy={cy} r={1.4} fill={muted} />)
+    }
+  return (
+    <Svg>
+      <defs>
+        <marker id="varr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill={ink} />
+        </marker>
+      </defs>
+      {vec}
+      <rect x={176} y={11} width={110} height={88} fill="var(--paper)" stroke="var(--line-strong)" />
+      <circle cx={236} cy={58} r={4} fill={ink} opacity={0.5} />
+      <circle cx={221} cy={52} r={3} fill={ink} opacity={0.3} />
+      <text x={231} y={106} fontSize={9.5} textAnchor="middle" fill={muted}>
+        residual ≈ 0
+      </text>
+    </Svg>
+  )
+}
+
 export const CARD_ART: Record<string, () => ReactNode> = {
   entropy,
   rle,
@@ -482,5 +645,11 @@ export const CARD_ART: Record<string, () => ReactNode> = {
   jpeg,
   wavelet,
   palette,
+  lz4,
+  qoi,
+  zstd,
+  lzma,
+  perceptual,
+  video,
   bench,
 }
